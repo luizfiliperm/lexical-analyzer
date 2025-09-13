@@ -49,10 +49,12 @@ public class Scanner {
             return readIdentifier();
         }
 
-        if (SINGLE_CHAR_TOKENS.containsKey(current)) {
-            String content = String.valueOf(nextChar());
-            TokenType type = SINGLE_CHAR_TOKENS.get(current);
-            return new Token(type, content, this.line, this.column);
+        TokenType tokenType = SINGLE_CHAR_TOKENS.get(current);
+
+        if (tokenType != null) {
+            String content = String.valueOf(current);
+            nextChar();
+            return new Token(tokenType, content, this.line, this.column);
         }
 
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
