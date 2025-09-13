@@ -3,11 +3,14 @@ package com.compiler.lexical;
 import com.compiler.lexical.exception.LexicalErrorException;
 import com.compiler.lexical.token.Token;
 import com.compiler.lexical.token.TokenType;
+import com.compiler.lexical.token.TokenDefinitions;
 import com.compiler.lexical.utils.CharUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Scanner {
 
@@ -35,6 +38,14 @@ public class Scanner {
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
             return readIdentifier();
+        }
+
+        TokenType tokenType = TokenDefinitions.getTokenType(current);
+
+        if (tokenType != null) {
+            String content = String.valueOf(current);
+            nextChar();
+            return new Token(tokenType, content, this.line, this.column);
         }
 
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);

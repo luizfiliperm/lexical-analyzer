@@ -1,5 +1,9 @@
 package com.compiler.lexical.token;
 
 public enum TokenType {
-    IDENTIFIER
+    IDENTIFIER,
+    PLUS,
+    MINUS,
+    TIMES,
+    DIVIDE
 }
