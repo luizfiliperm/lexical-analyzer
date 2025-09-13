@@ -8,6 +8,8 @@ import com.compiler.lexical.utils.CharUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Scanner {
 
@@ -15,6 +17,16 @@ public class Scanner {
     private int position;
     private int line;
     private int column;
+
+    private static final Map<Character, TokenType> SINGLE_CHAR_TOKENS;
+
+    static {
+        SINGLE_CHAR_TOKENS = new HashMap<>();
+        SINGLE_CHAR_TOKENS.put('+', TokenType.PLUS);
+        SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
+        SINGLE_CHAR_TOKENS.put('*', TokenType.TIMES);
+        SINGLE_CHAR_TOKENS.put('/', TokenType.DIVIDE);
+    }
 
     public Scanner(String filename) throws IOException {
         String content = Files.readString(Paths.get(filename));
@@ -35,6 +47,12 @@ public class Scanner {
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
             return readIdentifier();
+        }
+
+        if (SINGLE_CHAR_TOKENS.containsKey(current)) {
+            String content = String.valueOf(nextChar());
+            TokenType type = SINGLE_CHAR_TOKENS.get(current);
+            return new Token(type, content, this.line, this.column);
         }
 
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
