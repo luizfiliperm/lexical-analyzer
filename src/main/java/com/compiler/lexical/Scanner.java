@@ -3,6 +3,7 @@ package com.compiler.lexical;
 import com.compiler.lexical.exception.LexicalErrorException;
 import com.compiler.lexical.token.Token;
 import com.compiler.lexical.token.TokenType;
+import com.compiler.lexical.token.TokenDefinitions;
 import com.compiler.lexical.utils.CharUtils;
 
 import java.io.IOException;
@@ -17,16 +18,6 @@ public class Scanner {
     private int position;
     private int line;
     private int column;
-
-    private static final Map<Character, TokenType> SINGLE_CHAR_TOKENS;
-
-    static {
-        SINGLE_CHAR_TOKENS = new HashMap<>();
-        SINGLE_CHAR_TOKENS.put('+', TokenType.PLUS);
-        SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
-        SINGLE_CHAR_TOKENS.put('*', TokenType.TIMES);
-        SINGLE_CHAR_TOKENS.put('/', TokenType.DIVIDE);
-    }
 
     public Scanner(String filename) throws IOException {
         String content = Files.readString(Paths.get(filename));
@@ -49,7 +40,7 @@ public class Scanner {
             return readIdentifier();
         }
 
-        TokenType tokenType = SINGLE_CHAR_TOKENS.get(current);
+        TokenType tokenType = TokenDefinitions.getTokenType(current);
 
         if (tokenType != null) {
             String content = String.valueOf(current);
