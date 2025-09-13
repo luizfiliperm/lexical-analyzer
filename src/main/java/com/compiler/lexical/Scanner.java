@@ -9,8 +9,6 @@ import com.compiler.lexical.utils.CharUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Scanner {
 
@@ -41,7 +39,6 @@ public class Scanner {
         }
 
         TokenType tokenType = TokenDefinitions.getTokenType(current);
-
         if (tokenType != null) {
             String content = String.valueOf(current);
             nextChar();

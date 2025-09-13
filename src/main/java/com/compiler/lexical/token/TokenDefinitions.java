@@ -13,6 +13,7 @@ public final class TokenDefinitions {
         SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
         SINGLE_CHAR_TOKENS.put('*', TokenType.TIMES);
         SINGLE_CHAR_TOKENS.put('/', TokenType.DIVIDE);
+        SINGLE_CHAR_TOKENS.put('=', TokenType.ASSIGN);
     }
 
     private TokenDefinitions() {}
