@@ -32,6 +32,11 @@ public class Scanner {
             return null;
         }
 
+        if (peekChar() == '#') {
+            ignoreSingleLineComment();
+            return nextToken();
+        }
+
         char current = peekChar();
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
@@ -64,6 +69,12 @@ public class Scanner {
         while (!isEoF() && CharUtils.isWhitespace(peekChar())) {
             nextChar();
         }
+    }
+
+    private void ignoreSingleLineComment() {
+        do {
+            nextChar();
+        } while (!isEoF() && !CharUtils.isLineBreak(peekChar()));
     }
 
     private char nextChar() {
