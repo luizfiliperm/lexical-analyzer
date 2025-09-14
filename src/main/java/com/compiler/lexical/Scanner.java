@@ -46,6 +46,42 @@ public class Scanner {
 
         char current = peekChar();
 
+        if (current == '>') {
+            nextChar();
+            if (peekChar() == '=') {
+                nextChar();
+                return new Token(TokenType.GREATER_EQUAL, ">=", this.line, this.column);
+            }
+            return new Token(TokenType.GREATER_THAN, ">", this.line, this.column);
+        }
+
+        if (current == '<') {
+            nextChar();
+            if (peekChar() == '=') {
+                nextChar();
+                return new Token(TokenType.LESS_EQUAL, "<=", this.line, this.column);
+            }
+            return new Token(TokenType.LESS_THAN, "<", this.line, this.column);
+        }
+
+        if (current == '=') {
+            nextChar();
+            if (peekChar() == '=') {
+                nextChar();
+                return new Token(TokenType.EQUALS, "==", this.line, this.column);
+            }
+            return new Token(TokenType.ASSIGN, "=", this.line, this.column);
+        }
+
+        if (current == '!') {
+            nextChar();
+            if (peekChar() == '=') {
+                nextChar();
+                return new Token(TokenType.NOT_EQUAL, "!=", this.line, this.column);
+            }
+            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column + ". O '!' deve ser seguido por '='.");
+        }
+
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
             return readIdentifier();
         }
