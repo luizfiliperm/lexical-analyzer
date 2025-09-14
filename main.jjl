@@ -6,8 +6,6 @@ a != b
 a = b
 a == b
 
-=
-
 # ignorar comentário aqui
 
 /* comentário de multiplas linhas em uma linha só*/
@@ -15,8 +13,3 @@ a == b
 duas linhas*/
 
 Tokens depois do comentario ali / - + = *
-
-
-texto = 123
-
->>>>>>> Stashed changes
