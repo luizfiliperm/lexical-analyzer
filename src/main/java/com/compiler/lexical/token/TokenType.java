@@ -5,5 +5,6 @@ public enum TokenType {
     PLUS,
     MINUS,
     TIMES,
-    DIVIDE
+    DIVIDE,
+    ASSIGN,
 }
