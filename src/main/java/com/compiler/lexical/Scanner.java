@@ -60,11 +60,6 @@ public class Scanner {
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
     }
 
-    private char peekNextChar() {
-        if (this.position + 1 >= this.sourceCode.length) return '\0';
-        return this.sourceCode[position + 1];
-    }
-
     private void ignoreMultiLineComment() throws LexicalErrorException {
         nextChar();
         nextChar();
@@ -120,6 +115,11 @@ public class Scanner {
     private char peekChar() {
         if (isEoF()) return '\0';
         return sourceCode[position];
+    }
+
+    private char peekNextChar() {
+        if (this.position + 1 >= this.sourceCode.length) return '\0';
+        return this.sourceCode[position + 1];
     }
 
     private boolean isEoF() {
