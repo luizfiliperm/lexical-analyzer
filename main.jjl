@@ -1,1 +1,9 @@
-= 0
+=
+
+# ignorar comentário aqui
+
+/* comentário de multiplas linhas em uma linha só*/
+/* comentário de multiplas linhas em
+duas linhas*/
+
+Tokens depois do comentario ali / - + = *

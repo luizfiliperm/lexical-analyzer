@@ -32,6 +32,18 @@ public class Scanner {
             return null;
         }
 
+        if (peekChar() == '#') {
+            ignoreSingleLineComment();
+            return nextToken();
+        }
+
+        if (peekChar() == '/') {
+            if (peekNextChar() == '*') {
+                ignoreMultiLineComment();
+                return nextToken();
+            }
+        }
+
         char current = peekChar();
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
@@ -46,6 +58,23 @@ public class Scanner {
         }
 
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
+    }
+
+    private void ignoreMultiLineComment() throws LexicalErrorException {
+        nextChar();
+        nextChar();
+
+        while (!isEoF()) {
+            if (peekChar() == '*' && peekNextChar() == '/') {
+                nextChar();
+                nextChar();
+                return;
+            } else {
+                nextChar();
+            }
+        }
+
+        throw new LexicalErrorException("Comentário multi-linha não fechado na linha " + this.line + " coluna " + this.column);
     }
 
     private Token readIdentifier() {
@@ -66,6 +95,12 @@ public class Scanner {
         }
     }
 
+    private void ignoreSingleLineComment() {
+        do {
+            nextChar();
+        } while (!isEoF() && !CharUtils.isLineBreak(peekChar()));
+    }
+
     private char nextChar() {
         char c = this.sourceCode[this.position++];
         if (CharUtils.isLineBreak(c)) {
@@ -80,6 +115,11 @@ public class Scanner {
     private char peekChar() {
         if (isEoF()) return '\0';
         return sourceCode[position];
+    }
+
+    private char peekNextChar() {
+        if (this.position + 1 >= this.sourceCode.length) return '\0';
+        return this.sourceCode[position + 1];
     }
 
     private boolean isEoF() {
