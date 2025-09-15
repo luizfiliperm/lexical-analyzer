@@ -16,6 +16,8 @@ public final class TokenDefinitions {
         SINGLE_CHAR_TOKENS.put('=', TokenType.ASSIGN);
         SINGLE_CHAR_TOKENS.put('(', TokenType.LEFT_PAREN);
         SINGLE_CHAR_TOKENS.put(')', TokenType.RIGHT_PAREN);
+        SINGLE_CHAR_TOKENS.put(',', TokenType.COMMA);
+
     }
 
     private TokenDefinitions() {}
