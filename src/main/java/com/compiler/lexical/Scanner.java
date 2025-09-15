@@ -1,6 +1,7 @@
 package com.compiler.lexical;
 
 import com.compiler.lexical.exception.LexicalErrorException;
+import com.compiler.lexical.token.ReservedWords;
 import com.compiler.lexical.token.Token;
 import com.compiler.lexical.token.TokenType;
 import com.compiler.lexical.token.TokenDefinitions;
@@ -129,7 +130,14 @@ public class Scanner {
         } while (!isEoF() && (CharUtils.isLetter(peekChar()) || CharUtils.isDigit(peekChar())
                 || CharUtils.isUnderLine(peekChar())));
 
-        return new Token(TokenType.IDENTIFIER, content.toString(), startLine, startColumn);
+        String word = content.toString();
+        TokenType reservedType = ReservedWords.getTokenType(word);
+
+        if (reservedType != null) {
+            return new Token(reservedType, word, startLine, startColumn);
+        }
+
+        return new Token(TokenType.IDENTIFIER, word, startLine, startColumn);
     }
 
     private void ignoreWhiteSpaces() {
