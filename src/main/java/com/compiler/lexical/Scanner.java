@@ -200,7 +200,6 @@ public class Scanner {
         if (!hasDigitsBeforeDot && !hasDot) {
             throw new LexicalErrorException("Número inválido na linha " + line + " coluna " + column);
         }
-
         return new Token(TokenType.NUMBER, content.toString(), startLine, startColumn);
     }
 
