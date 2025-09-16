@@ -3,7 +3,7 @@ package com.compiler.lexical.token;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class TokenDefinitions{
+public final class TokenDefinitions {
 
     private static final Map<String, TokenType> RESERVED_WORDS = new HashMap<>();
     private static final Map<Character, TokenType> SINGLE_CHAR_TOKENS = new HashMap<>();

@@ -79,7 +79,7 @@ public class Scanner {
                 nextChar();
                 return new Token(TokenType.NOT_EQUAL, "!=", this.line, this.column);
             }
-            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column+ ". O '!' deve ser seguido por '='.");
+            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column + ". O '!' deve ser seguido por '='.");
         }
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
@@ -163,8 +163,7 @@ public class Scanner {
     }
 
     private char peekNextChar() {
-        if (this.position + 1 >= this.sourceCode.length)
-            return '\0';
+        if (this.position + 1 >= this.sourceCode.length) return '\0';
         return this.sourceCode[position + 1];
     }
 
