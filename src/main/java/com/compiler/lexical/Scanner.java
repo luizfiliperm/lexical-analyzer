@@ -1,7 +1,6 @@
 package com.compiler.lexical;
 
 import com.compiler.lexical.exception.LexicalErrorException;
-import com.compiler.lexical.token.ReservedWords;
 import com.compiler.lexical.token.Token;
 import com.compiler.lexical.token.TokenType;
 import com.compiler.lexical.token.TokenDefinitions;
@@ -80,8 +79,7 @@ public class Scanner {
                 nextChar();
                 return new Token(TokenType.NOT_EQUAL, "!=", this.line, this.column);
             }
-            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column
-                    + ". O '!' deve ser seguido por '='.");
+            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column+ ". O '!' deve ser seguido por '='.");
         }
 
         if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
@@ -97,9 +95,7 @@ public class Scanner {
         if (CharUtils.isDigit(current) || current == '.') {
             return readNumber();
         }
-
-        throw new LexicalErrorException(
-                "Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
+        throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
     }
 
     private void ignoreMultiLineComment() throws LexicalErrorException {
@@ -116,8 +112,7 @@ public class Scanner {
             }
         }
 
-        throw new LexicalErrorException(
-                "Comentário multi-linha não fechado na linha " + this.line + " coluna " + this.column);
+        throw new LexicalErrorException("Comentário multi-linha não fechado na linha " + this.line + " coluna " + this.column);
     }
 
     private Token readIdentifier() {
@@ -127,16 +122,14 @@ public class Scanner {
 
         do {
             content.append(nextChar());
-        } while (!isEoF() && (CharUtils.isLetter(peekChar()) || CharUtils.isDigit(peekChar())
-                || CharUtils.isUnderLine(peekChar())));
+        } while (!isEoF() && (CharUtils.isLetter(peekChar()) || CharUtils.isDigit(peekChar()) || CharUtils.isUnderLine(peekChar())));
 
         String word = content.toString();
-        TokenType reservedType = ReservedWords.getTokenType(word);
+        TokenType reservedType = TokenDefinitions.getTokenType(word);
 
         if (reservedType != null) {
             return new Token(reservedType, word, startLine, startColumn);
         }
-
         return new Token(TokenType.IDENTIFIER, word, startLine, startColumn);
     }
 
@@ -164,8 +157,8 @@ public class Scanner {
     }
 
     private char peekChar() {
-        if (isEoF())
-            return '\0';
+        if (isEoF()) return '\0';
+        
         return sourceCode[position];
     }
 

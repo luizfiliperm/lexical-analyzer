@@ -1,7 +1,15 @@
-int
-float
-print
-if
-else
-x
-myVar
+a <= b
+b >= a
+a < b
+b > a
+a != b
+a = b
+a == b
+
+# ignorar comentário aqui
+
+/* comentário de multiplas linhas em uma linha só*/
+/* comentário de multiplas linhas em
+duas linhas*/
+
+Tokens depois do comentario ali / - + = *
