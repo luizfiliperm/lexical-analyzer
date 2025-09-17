@@ -92,7 +92,9 @@ public class Scanner {
             nextChar();
             return new Token(tokenType, content, this.line, this.column);
         }
-
+        if (CharUtils.isDigit(current) || current == '.') {
+            return readNumber();
+        }
         throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
     }
 
@@ -122,7 +124,13 @@ public class Scanner {
             content.append(nextChar());
         } while (!isEoF() && (CharUtils.isLetter(peekChar()) || CharUtils.isDigit(peekChar()) || CharUtils.isUnderLine(peekChar())));
 
-        return new Token(TokenType.IDENTIFIER, content.toString(), startLine, startColumn);
+        String word = content.toString();
+        TokenType reservedType = TokenDefinitions.getTokenType(word);
+
+        if (reservedType != null) {
+            return new Token(reservedType, word, startLine, startColumn);
+        }
+        return new Token(TokenType.IDENTIFIER, word, startLine, startColumn);
     }
 
     private void ignoreWhiteSpaces() {
@@ -150,6 +158,7 @@ public class Scanner {
 
     private char peekChar() {
         if (isEoF()) return '\0';
+        
         return sourceCode[position];
     }
 
@@ -161,4 +170,36 @@ public class Scanner {
     private boolean isEoF() {
         return position >= this.sourceCode.length;
     }
+
+    private Token readNumber() {
+        StringBuilder content = new StringBuilder();
+        int startLine = this.line;
+        int startColumn = this.column;
+        boolean hasDigitsBeforeDot = false;
+        boolean hasDot = false;
+
+        while (CharUtils.isDigit(peekChar())) {
+            hasDigitsBeforeDot = true;
+            content.append(nextChar());
+        }
+
+        if (peekChar() == '.') {
+            hasDot = true;
+            content.append(nextChar());
+
+            if (!CharUtils.isDigit(peekChar())) {
+                throw new LexicalErrorException("Número inválido na linha " + line + " coluna " + column);
+            }
+
+            while (CharUtils.isDigit(peekChar())) {
+                content.append(nextChar());
+            }
+        }
+
+        if (!hasDigitsBeforeDot && !hasDot) {
+            throw new LexicalErrorException("Número inválido na linha " + line + " coluna " + column);
+        }
+        return new Token(TokenType.NUMBER, content.toString(), startLine, startColumn);
+    }
+
 }

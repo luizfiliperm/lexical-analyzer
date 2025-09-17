@@ -14,5 +14,11 @@ public enum TokenType {
     NOT_EQUAL,
     EQUALS,
     LEFT_PAREN,
-    RIGHT_PAREN
+    RIGHT_PAREN,
+    NUMBER,
+    INT,
+    FLOAT,
+    PRINT,
+    IF,
+    ELSE
 }
