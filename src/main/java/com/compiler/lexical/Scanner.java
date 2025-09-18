@@ -188,7 +188,7 @@ public class Scanner {
             content.append(nextChar());
 
             if (!CharUtils.isDigit(peekChar())) {
-                throw new LexicalErrorException("Número inválido na linha " + line + " coluna " + column);
+                throw new LexicalErrorException("Número inválido: caractere inesperado '" + peekChar() + "' na linha " + line + " coluna " + column);
             }
 
             while (CharUtils.isDigit(peekChar())) {
@@ -196,9 +196,14 @@ public class Scanner {
             }
         }
 
-        if (!hasDigitsBeforeDot && !hasDot) {
-            throw new LexicalErrorException("Número inválido na linha " + line + " coluna " + column);
+        if (peekChar() == '.') {
+            throw new LexicalErrorException("Número inválido: múltiplos pontos detectados, caractere '" + peekChar() + "' na linha " + line + " coluna " + column);
         }
+
+        if (!hasDigitsBeforeDot && !hasDot) {
+            throw new LexicalErrorException("Número inválido: caractere inesperado '" + peekChar() + "' na linha " + line + " coluna " + column);
+        }
+
         return new Token(TokenType.NUMBER, content.toString(), startLine, startColumn);
     }
 
