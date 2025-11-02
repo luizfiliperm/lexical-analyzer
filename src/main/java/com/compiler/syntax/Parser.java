@@ -19,16 +19,31 @@ public class Parser {
 
     public void parse() throws IOException {
         advance();
-        parseProgram();
 
+        while (!isEOF()) {
+            parseProgram();
+        }
     }
+
     private void parseProgram() {
-        match(TokenType.IDENTIFIER);
-        match(TokenType.LEFT_BRACE);
+        match(TokenType.IDENTIFIER); // main
+        match(TokenType.LEFT_BRACE); // {
 
         parseBody();
 
-        match(TokenType.RIGHT_BRACE);
+        match(TokenType.RIGHT_BRACE); // }
+
+        if (!isEOF()) {
+            Token next = currentToken();
+            if (next.getType() != TokenType.IDENTIFIER) {
+                throw new SyntaxErrorException(
+                        "Erro sintático: esperado fim de arquivo ou novo programa (IDENTIFIER), " +
+                                "mas encontrado " + next.getType() +
+                                " ('" + next.getContent() + "') na linha " +
+                                next.getLine() + ", coluna " + next.getStartColumn()
+                );
+            }
+        }
     }
 
     private void parseBody() {
