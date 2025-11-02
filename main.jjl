@@ -1,59 +1,14 @@
-# Testes válidos para o analisador léxico
+# Arquivo reconhecido nesse ponto
 
-# 1. Identificadores
-var {
-_var
-var123
-aB_cD_1
+main {
 
+    # Pode fazer o que quiser aqui
+
+    x = 2
+
+    3 + 4
 }
 
-# 2. Operadores Matemáticos
-+
--
-*
-/
-
-# 3. Operador de Atribuição
-=
-
-# 4. Operadores Relacionais
->
->=
-<
-<=
-!=
-==
-
-# 5. Parênteses
-(
-)
-
-# 6. Constantes Numéricas
-123
-123.456
-.456
-0
-0.0
-
-# 7. Palavras Reservadas
-int
-float
-print
-if
-else
-
-# 8. Comentários
-# Linha única
-# Este é um comentário
-int x = 10 # Comentário no final da linha
-
-# Múltiplas linhas
-/*
-Comentário
-em múltiplas
-linhas
-*/
-float y = 3.14
-
-
+outroMain {
+    5.2
+}
