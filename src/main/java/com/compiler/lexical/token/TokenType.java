@@ -24,7 +24,10 @@ public enum TokenType {
     FLOAT,
     PRINT,
     IF,
-    ELSE
     ELSE,
     VAR;
+
+    public boolean isType() {
+        return this == TokenType.FLOAT || this == TokenType.INT;
+    }
 }
