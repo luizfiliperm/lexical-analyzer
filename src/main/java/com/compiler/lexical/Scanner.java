@@ -46,6 +46,16 @@ public class Scanner {
 
         char current = peekChar();
 
+        if (current == '{') {
+            nextChar();
+            return new Token(TokenType.LEFT_BRACE, "{", line, column);
+        }
+
+        if (current == '}') {
+            nextChar();
+            return new Token(TokenType.RIGHT_BRACE, "}", line, column);
+        }
+
         if (current == '>') {
             nextChar();
             if (peekChar() == '=') {
