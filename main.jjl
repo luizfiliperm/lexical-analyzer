@@ -1,10 +1,12 @@
 # Testes válidos para o analisador léxico
 
 # 1. Identificadores
-var
+var {
 _var
 var123
 aB_cD_1
+
+}
 
 # 2. Operadores Matemáticos
 +
