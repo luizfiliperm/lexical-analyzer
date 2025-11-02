@@ -18,16 +18,26 @@ public class Parser {
     }
 
     public void parse() throws IOException {
-        System.out.println("Iniciando análise sintática (fase 1 - leitura de tokens)...");
+        advance();
+        parseProgram();
 
-        do {
-            currentToken = scanner.nextToken();
-            if (currentToken != null) {
-                System.out.println("[Parser] Token lido: " + currentToken);
-            }
-        } while (currentToken != null);
+    }
+    private void parseProgram() {
+        match(TokenType.IDENTIFIER);
+        match(TokenType.LEFT_BRACE);
 
-        System.out.println("Arquivo compilado com sucesso.");
+        parseBody();
+
+        match(TokenType.RIGHT_BRACE);
+    }
+
+    private void parseBody() {
+        System.out.println("Corpo do programa encontrado (validação detalhada será implementada depois)");
+
+        // Por enquanto, apenas consome todos os tokens até encontrar a chave de fechamento (Vou remover esse comentário depois, é só pra acompanhar por hora)
+        while (!isEOF() && currentToken().getType() != TokenType.RIGHT_BRACE) {
+            advance();
+        }
     }
 
     private void advance() {
@@ -44,7 +54,7 @@ public class Parser {
 
     private void match(TokenType expected) {
         if (currentToken == null) {
-            throw new SyntaxErrorException("Esperado token " + expected + " mas encontrado EOF (fim do arquivo)");
+            throw new SyntaxErrorException("Erro sintático: esperado token " + expected + " mas encontrado EOF (fim do arquivo)");
         }
 
         if (currentToken.getType() == expected) {
