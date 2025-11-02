@@ -59,13 +59,13 @@ public class Scanner {
             nextChar();
             if (peekChar() == '-') {
                 nextChar();
-                return new Token(TokenType.ASSIGN, "<-", line, column);
+                return new Token(TokenType.ASSIGN, "<-", this.line, this.column);
             }
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.LESS_EQUAL, "<=", line, column);
+                return new Token(TokenType.LESS_EQUAL, "<=", this.line, this.column);
             }
-            return new Token(TokenType.LESS_THAN, "<", line, column);
+            return new Token(TokenType.LESS_THAN, "<", this.line, this.column);
         }
 
         if (current == '=') {
