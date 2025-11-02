@@ -17,10 +17,14 @@ public enum TokenType {
     RIGHT_PAREN,
     LEFT_BRACE,
     RIGHT_BRACE,
+    COLON,
+    SEMICOLON,
     NUMBER,
     INT,
     FLOAT,
     PRINT,
     IF,
     ELSE
+    ELSE,
+    VAR;
 }
