@@ -57,11 +57,15 @@ public class Scanner {
 
         if (current == '<') {
             nextChar();
+            if (peekChar() == '-') {
+                nextChar();
+                return new Token(TokenType.ASSIGN, "<-", line, column);
+            }
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.LESS_EQUAL, "<=", this.line, this.column);
+                return new Token(TokenType.LESS_EQUAL, "<=", line, column);
             }
-            return new Token(TokenType.LESS_THAN, "<", this.line, this.column);
+            return new Token(TokenType.LESS_THAN, "<", line, column);
         }
 
         if (current == '=') {
