@@ -1,42 +1,37 @@
-# Teste de Scanner (PR 2)
-# Este arquivo testa todos os novos tokens do CKP2.
-
-/*
-   Comentário de
-   Múltiplas linhas
-   para o scanner ignorar.
-*/
-
 main {
     var {
-        a: int;
-        b: real; # A nova palavra-chave 'real'
-        c: int;
+        x:int;
+        y:int;
+        z:int;
+        temp:int;
     }
 
-    # Teste de operadores complexos
-    a <- 10;   # Operador de atribuição
-    b <- 20.5; # NUMREAL
-    a++;       # Incremento
-    b--;       # Decremento
+    # Ordena três números em ordem crescente
+    input(x);
+    input(y);
+    input(z);
 
-    # Teste de números e operadores simples
-    c <- 123 + 456.789 - 1.0 * 5 / 2; # NUMINT, +, NUMREAL, -, *, /
-
-    # Teste de CADEIA (String) e Escrita
-    print("Teste de String (CADEIA)");
-    
-    # Teste de Leitura
-    input(a);
-
-    # Teste de operadores relacionais e lógicos
-    if (a > b E b >= 10.0) then {
-        while ( (a != b) OU (NAO (c == 0)) ) {
-            print("Loop");
-            if (a < 0) then
-                a <- 0;
-        }
-    } else {
-        print("Fim");
+    if x > y then {
+        temp <- y;
+        y <- x;
+        x <- temp;
     }
+
+    if (x > z E y <= z OU x != z) then {
+        temp <- z;
+        z <- x;
+        x <- temp;
+    }
+
+    if y > z then {
+        temp <- z;
+        z <- y;
+        y <- temp;
+    }
+
+    print("Ordem crescente:");
+    print(x);
+    print(y);
+    print(z);
 }
+
