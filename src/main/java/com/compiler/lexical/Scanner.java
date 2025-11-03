@@ -46,60 +46,106 @@ public class Scanner {
 
         char current = peekChar();
 
+        int startColumn = this.column;
         if (current == '>') {
             nextChar();
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.GREATER_EQUAL, ">=", this.line, this.column);
+                return new Token(TokenType.GREATER_EQUAL, ">=", this.line, startColumn);
             }
-            return new Token(TokenType.GREATER_THAN, ">", this.line, this.column);
+            return new Token(TokenType.GREATER_THAN, ">", this.line, startColumn);
         }
 
         if (current == '<') {
             nextChar();
             if (peekChar() == '-') {
                 nextChar();
-                return new Token(TokenType.ASSIGN, "<-", this.line, this.column);
+                return new Token(TokenType.ASSIGN, "<-", this.line, startColumn);
             }
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.LESS_EQUAL, "<=", this.line, this.column);
+                return new Token(TokenType.LESS_EQUAL, "<=", this.line, startColumn);
             }
-            return new Token(TokenType.LESS_THAN, "<", this.line, this.column);
+            return new Token(TokenType.LESS_THAN, "<", this.line, startColumn);
         }
 
         if (current == '=') {
             nextChar();
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.EQUALS, "==", this.line, this.column);
+                return new Token(TokenType.EQUALS, "==", this.line, startColumn);
             }
-            return new Token(TokenType.ASSIGN, "=", this.line, this.column);
+            throw new LexicalErrorException("Token inesperado: '=' na linha " + this.line + " coluna " + startColumn + ". Operador de atribuição é '<-' e de igualdade é '=='.");
         }
 
         if (current == '!') {
             nextChar();
             if (peekChar() == '=') {
                 nextChar();
-                return new Token(TokenType.NOT_EQUAL, "!=", this.line, this.column);
+                return new Token(TokenType.NOT_EQUAL, "!=", this.line, startColumn);
             }
-            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + this.column + ". O '!' deve ser seguido por '='.");
+            throw new LexicalErrorException("Token inesperado: '!' na linha " + this.line + " coluna " + startColumn + ". O '!' deve ser seguido por '='.");
         }
 
-        if (Character.isLetter(current) || CharUtils.isUnderLine(current)) {
-            return readIdentifier();
+        if (current == '+') {
+            nextChar();
+            if (peekChar() == '+') {
+                nextChar();
+                return new Token(TokenType.INCREMENT, "++", this.line, startColumn);
+            }
+            return new Token(TokenType.PLUS, "+", this.line, startColumn);
+        }
+
+        if (current == '-') {
+            nextChar();
+            if (peekChar() == '-') {
+                nextChar();
+                return new Token(TokenType.DECREMENT, "--", this.line, startColumn);
+            }
+            return new Token(TokenType.MINUS, "-", this.line, startColumn);
+        }
+
+        if (current == '"') {
+            return readStringLiteral(startColumn);
+        }
+
+
+        if (CharUtils.isLetter(current) || CharUtils.isUnderLine(current)) {
+            return readIdentifier(startColumn);
+        }
+
+        if (CharUtils.isDigit(current) || (current == '.' && CharUtils.isDigit(peekNextChar()))) {
+            return readNumber(startColumn);
         }
 
         TokenType tokenType = TokenDefinitions.getTokenType(current);
         if (tokenType != null) {
             String content = String.valueOf(current);
             nextChar();
-            return new Token(tokenType, content, this.line, this.column);
+            return new Token(tokenType, content, this.line, startColumn);
         }
-        if (CharUtils.isDigit(current) || current == '.') {
-            return readNumber();
+
+        throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + startColumn);
+    }
+
+    private Token readStringLiteral(int startColumn) {
+        nextChar();
+        StringBuilder content = new StringBuilder();
+        int startLine = this.line;
+
+        while (!isEoF() && peekChar() != '"') {
+            if (CharUtils.isLineBreak(peekChar())) {
+                throw new LexicalErrorException("String literal (CADEIA) não fechada na linha " + startLine);
+            }
+            content.append(nextChar());
         }
-        throw new LexicalErrorException("Token inesperado: '" + nextChar() + "' na linha " + this.line + " coluna " + this.column);
+
+        if (isEoF()) {
+            throw new LexicalErrorException("String literal (CADEIA) não fechada na linha " + startLine);
+        }
+
+        nextChar();
+        return new Token(TokenType.STRING_LITERAL, content.toString(), startLine, startColumn);
     }
 
     private void ignoreMultiLineComment() throws LexicalErrorException {
@@ -119,10 +165,9 @@ public class Scanner {
         throw new LexicalErrorException("Comentário multi-linha não fechado na linha " + this.line + " coluna " + this.column);
     }
 
-    private Token readIdentifier() {
+    private Token readIdentifier(int startColumn) {
         StringBuilder content = new StringBuilder();
         int startLine = this.line;
-        int startColumn = this.column;
 
         do {
             content.append(nextChar());
@@ -150,6 +195,7 @@ public class Scanner {
     }
 
     private char nextChar() {
+        if (isEoF()) return '\0';
         char c = this.sourceCode[this.position++];
         if (CharUtils.isLineBreak(c)) {
             this.line++;
@@ -175,15 +221,12 @@ public class Scanner {
         return position >= this.sourceCode.length;
     }
 
-    private Token readNumber() {
+    private Token readNumber(int startColumn) {
         StringBuilder content = new StringBuilder();
         int startLine = this.line;
-        int startColumn = this.column;
-        boolean hasDigitsBeforeDot = false;
         boolean hasDot = false;
 
         while (CharUtils.isDigit(peekChar())) {
-            hasDigitsBeforeDot = true;
             content.append(nextChar());
         }
 
@@ -192,7 +235,7 @@ public class Scanner {
             content.append(nextChar());
 
             if (!CharUtils.isDigit(peekChar())) {
-                throw new LexicalErrorException("Número inválido: caractere inesperado '" + peekChar() + "' na linha " + line + " coluna " + column);
+                throw new LexicalErrorException("Número inválido: caractere inesperado '" + peekChar() + "' após '.' na linha " + line + " coluna " + column);
             }
 
             while (CharUtils.isDigit(peekChar())) {
@@ -203,12 +246,12 @@ public class Scanner {
         if (peekChar() == '.') {
             throw new LexicalErrorException("Número inválido: múltiplos pontos detectados, caractere '" + peekChar() + "' na linha " + line + " coluna " + column);
         }
-
-        if (!hasDigitsBeforeDot && !hasDot) {
-            throw new LexicalErrorException("Número inválido: caractere inesperado '" + peekChar() + "' na linha " + line + " coluna " + column);
+        
+        if (hasDot) {
+            return new Token(TokenType.NUMREAL, content.toString(), startLine, startColumn);
+        } else {
+            return new Token(TokenType.NUMINT, content.toString(), startLine, startColumn);
         }
-
-        return new Token(TokenType.NUMBER, content.toString(), startLine, startColumn);
     }
 
 }

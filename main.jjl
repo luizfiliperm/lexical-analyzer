@@ -1,9 +1,42 @@
+# Teste de Scanner (PR 2)
+# Este arquivo testa todos os novos tokens do CKP2.
+
+/*
+   Comentário de
+   Múltiplas linhas
+   para o scanner ignorar.
+*/
+
 main {
     var {
-        x:int;
-        y:int;
-        z:int;
-        temp:int;
+        a: int;
+        b: real; # A nova palavra-chave 'real'
+        c: int;
+    }
+
+    # Teste de operadores complexos
+    a <- 10;   # Operador de atribuição
+    b <- 20.5; # NUMREAL
+    a++;       # Incremento
+    b--;       # Decremento
+
+    # Teste de números e operadores simples
+    c <- 123 + 456.789 - 1.0 * 5 / 2; # NUMINT, +, NUMREAL, -, *, /
+
+    # Teste de CADEIA (String) e Escrita
+    print("Teste de String (CADEIA)");
+    
+    # Teste de Leitura
+    input(a);
+
+    # Teste de operadores relacionais e lógicos
+    if (a > b E b >= 10.0) then {
+        while ( (a != b) OU (NAO (c == 0)) ) {
+            print("Loop");
+            if (a < 0) then
+                a <- 0;
+        }
+    } else {
+        print("Fim");
     }
 }
-
