@@ -10,14 +10,14 @@ public final class TokenDefinitions {
 
     static {
         RESERVED_WORDS.put("int", TokenType.INT);
-        RESERVED_WORDS.put("float", TokenType.FLOAT);
+        RESERVED_WORDS.put("real", TokenType.REAL);
         RESERVED_WORDS.put("print", TokenType.PRINT);
         RESERVED_WORDS.put("if", TokenType.IF);
         RESERVED_WORDS.put("else", TokenType.ELSE);
         RESERVED_WORDS.put("var", TokenType.VAR);
 
-        SINGLE_CHAR_TOKENS.put('+', TokenType.PLUS);
-        SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
+        // SINGLE_CHAR_TOKENS.put('+', TokenType.PLUS);
+        // SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
         SINGLE_CHAR_TOKENS.put('*', TokenType.TIMES);
         SINGLE_CHAR_TOKENS.put('/', TokenType.DIVIDE);
         SINGLE_CHAR_TOKENS.put('(', TokenType.LEFT_PAREN);
