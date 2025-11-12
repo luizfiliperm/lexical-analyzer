@@ -1,14 +1,9 @@
-# Arquivo reconhecido nesse ponto
-
 main {
-
-    # Pode fazer o que quiser aqui
-
-    x = 2
-
-    3 + 4
+    var {
+        x:int;
+        y:int;
+        z:int;
+        temp:int;
+    }
 }
 
-outroMain {
-    5.2
-}

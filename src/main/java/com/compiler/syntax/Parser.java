@@ -47,12 +47,77 @@ public class Parser {
     }
 
     private void parseBody() {
-        System.out.println("Corpo do programa encontrado (validação detalhada será implementada depois)");
+        parseDeclarationSection();
+    }
 
-        // Por enquanto, apenas consome todos os tokens até encontrar a chave de fechamento (Vou remover esse comentário depois, é só pra acompanhar por hora)
-        while (!isEOF() && currentToken().getType() != TokenType.RIGHT_BRACE) {
+    private void parseDeclarationSection() {
+        match(TokenType.VAR); // var
+        match(TokenType.LEFT_BRACE); // {
+        parseDeclarationList();
+        match(TokenType.RIGHT_BRACE); // }
+    }
+
+    private void parseDeclarationList() {
+        do {
+            parseDeclaration();
+        } while (currentToken() != null && currentToken().getType() == TokenType.IDENTIFIER);
+    }
+
+    private void parseDeclaration() {
+        match(TokenType.IDENTIFIER); // x
+        match(TokenType.COLON); // :
+        parseType(); // int
+        match(TokenType.SEMICOLON); // ;
+    }
+
+    private void parseType() {
+        TokenType type = currentToken().getType();
+        if (type.isType()) {
             advance();
+        } else {
+            throw new SyntaxErrorException(
+                    "Erro sintático: tipo inválido '" + currentToken().getContent() +
+                            "' na linha " + currentToken().getLine() +
+                            ", coluna " + currentToken.getStartColumn()
+            );
         }
+    }
+
+
+    private void parseCommandList() {
+        // Implementação futura
+    }
+
+    private void parseCommand() {
+        // Implementação futura
+    }
+
+    private void parseAssignment() {
+        // Implementação futura
+    }
+
+    private void parseWrite() {
+        // Implementação futura
+    }
+
+    private void parseConditional() {
+        // Implementação futura
+    }
+
+    private void parseLoop() {
+        // Implementação futura
+    }
+
+    private void parseBlock() {
+        // Implementação futura
+    }
+
+    private void parseArithmeticExpression() {
+        // Implementação futura
+    }
+
+    private void parseRelationalExpression() {
+        // Implementação futura
     }
 
     private void advance() {
@@ -69,7 +134,7 @@ public class Parser {
 
     private void match(TokenType expected) {
         if (currentToken == null) {
-            throw new SyntaxErrorException("Erro sintático: esperado token " + expected + " mas encontrado EOF (fim do arquivo)");
+            throw new SyntaxErrorException("Erro sintático: esperado token " + expected + " mas encontrado EOF");
         }
 
         if (currentToken.getType() == expected) {

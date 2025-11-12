@@ -9,14 +9,13 @@ public final class TokenDefinitions {
     private static final Map<Character, TokenType> SINGLE_CHAR_TOKENS = new HashMap<>();
 
     static {
-        
         RESERVED_WORDS.put("int", TokenType.INT);
         RESERVED_WORDS.put("float", TokenType.FLOAT);
         RESERVED_WORDS.put("print", TokenType.PRINT);
         RESERVED_WORDS.put("if", TokenType.IF);
         RESERVED_WORDS.put("else", TokenType.ELSE);
+        RESERVED_WORDS.put("var", TokenType.VAR);
 
-        
         SINGLE_CHAR_TOKENS.put('+', TokenType.PLUS);
         SINGLE_CHAR_TOKENS.put('-', TokenType.MINUS);
         SINGLE_CHAR_TOKENS.put('*', TokenType.TIMES);
@@ -25,6 +24,8 @@ public final class TokenDefinitions {
         SINGLE_CHAR_TOKENS.put(')', TokenType.RIGHT_PAREN);
         SINGLE_CHAR_TOKENS.put('{', TokenType.LEFT_BRACE);
         SINGLE_CHAR_TOKENS.put('}', TokenType.RIGHT_BRACE);
+        SINGLE_CHAR_TOKENS.put(':', TokenType.COLON);
+        SINGLE_CHAR_TOKENS.put(';', TokenType.SEMICOLON);
     }
 
     private TokenDefinitions() {}
