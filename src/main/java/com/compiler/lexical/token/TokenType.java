@@ -21,13 +21,35 @@ public enum TokenType {
     SEMICOLON,
     NUMBER,
     INT,
-    FLOAT,
+    REAL,
     PRINT,
     IF,
     ELSE,
-    VAR;
+    VAR,
+    MAIN,
+    INPUT,
+    THEN,
+    WHILE,
+    RETURN,
+    FUNCTION,
+    COMMA,
+    EOF,
+    NUMINT,
+    NUMREAL,
+    STRING_LITERAL,
+    INCREMENT,
+    DECREMENT,
+    LOGICAL_AND,
+    LOGICAL_OR, 
+    LOGICAL_NOT;
 
     public boolean isType() {
-        return this == TokenType.FLOAT || this == TokenType.INT;
+        return this == TokenType.REAL || this == TokenType.INT;
+    }
+
+    public boolean isRelationalOperator() {
+        return this == TokenType.GREATER_THAN || this == TokenType.GREATER_EQUAL ||
+               this == TokenType.LESS_THAN || this == TokenType.LESS_EQUAL ||
+               this == TokenType.EQUALS || this == TokenType.NOT_EQUAL;
     }
 }
