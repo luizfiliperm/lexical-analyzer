@@ -57,6 +57,10 @@ public class Scanner {
 
         if (current == '<') {
             nextChar();
+            if (peekChar() == '-') {
+                nextChar();
+                return new Token(TokenType.ASSIGN, "<-", this.line, this.column);
+            }
             if (peekChar() == '=') {
                 nextChar();
                 return new Token(TokenType.LESS_EQUAL, "<=", this.line, this.column);
