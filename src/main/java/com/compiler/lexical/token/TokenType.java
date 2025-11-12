@@ -15,6 +15,8 @@ public enum TokenType {
     EQUALS,
     LEFT_PAREN,
     RIGHT_PAREN,
+    LEFT_BRACE,
+    RIGHT_BRACE,
     NUMBER,
     INT,
     FLOAT,

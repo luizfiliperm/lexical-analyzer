@@ -17,5 +17,8 @@ public class Main {
 
         Parser parser = new Parser(new Scanner("main.jjl"));
         parser.parse();
+
+        System.out.println("Programa compilado com sucesso!");
+
     }
 }
